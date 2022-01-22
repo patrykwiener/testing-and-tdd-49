@@ -29,9 +29,3 @@ def test_sentence_with_uppercase_letters():
 
     # asercji
     assert result == expected
-
-
-if __name__ == '__main__':
-    test_no_uppercase_letters()
-    test_empty_string()
-    test_sentence_with_uppercase_letters()

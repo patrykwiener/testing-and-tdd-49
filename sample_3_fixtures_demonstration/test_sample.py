@@ -1,9 +1,9 @@
 class TestSample:
 
-    def setup_method(self) -> None:
+    def setup_method(self):
         print('\nIt\'s me setup_method()')
 
-    def teardown_method(self) -> None:
+    def teardown_method(self):
         print('It\'s me teardown_method()')
 
     def test_sample1(self):

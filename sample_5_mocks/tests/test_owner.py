@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 
 from sample_5_mocks.owner import Owner
 
@@ -7,9 +7,13 @@ class TestOwner:
     FIRST_NAME = 'test_name'
     LAST_NAME = 'test_surname'
 
-    def setup_method(self) -> None:
-        self.wallet_mock = MagicMock()  # == Wallet()
-        self.owner = Owner(self.FIRST_NAME, self.LAST_NAME, self.wallet_mock)
+    def setup_method(self):
+        self.wallet_mock = Mock()  # == Wallet()
+        self.owner = Owner(
+            first_name=self.FIRST_NAME,
+            last_name=self.LAST_NAME,
+            wallet=self.wallet_mock,
+        )
 
     def test_owner_first_name(self):
         result = self.owner.first_name
@@ -20,25 +24,32 @@ class TestOwner:
 
     def test_owner_supply_to_wallet(self):
         cash_to_supply = 10
-        self.owner.supply_wallet(cash_to_supply)
-        self.wallet_mock.add_cash.assert_called_once_with(cash_to_supply)
+
+        # wykonanie supply wallet
+        self.owner.supply_wallet(cash=cash_to_supply)
+
+        # assercja czy mock zostal wykonany
+        self.wallet_mock.add_cash.assert_called_once_with(cash=cash_to_supply)
 
     def test_owner_withdraw_money(self):
         cash_to_withdraw = 10
-        self.owner.withdraw_money(cash_to_withdraw)
-        self.wallet_mock.spend_cash.assert_called_once_with(cash_to_withdraw)
+
+        # wykonanie withdraw_money
+        self.owner.withdraw_money(amount=cash_to_withdraw)
+
+        # assercja czy mock zostal wykonany
+        self.wallet_mock.spend_cash.assert_called_once_with(spending=cash_to_withdraw)
 
     def test_owner_check_if_can_afford_true(self):
-        cash_to_validate = 10
+        cash_to_validate = 20
         mocked_balance_value = 10
-        self.wallet_mock.get_balance.return_value = mocked_balance_value
+        # zamokowanie get_balance zeby zawsze zwracalo mocked_balance_value
+        self.wallet_mock.get_balance.return_value = 10
 
-        can_afford_result = self.owner.check_if_can_afford(cash_to_validate)
+        # wywołanie check_if_can_afford
+        result = self.owner.check_if_can_afford(amount=cash_to_validate)
 
-        assert can_afford_result is True
+        # assercja czy owner moze sobie pozwolić na zakup
+        assert result is False
+        # assercja czy get_balance zostało wykonane
         self.wallet_mock.get_balance.assert_called_once()
-
-
-
-
-
