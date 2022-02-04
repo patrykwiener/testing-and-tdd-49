@@ -1,24 +1,24 @@
-import unittest
+import pytest
 
-from exercises.exercise_3_door_controller_with_locking.door_controller import DoorController, DoorLockedError
+from exercises.exercise_6_door_controller_with_locking.door_controller import DoorController, DoorLockedError
 
 
-class TestDoorController(unittest.TestCase):
+class TestDoorController:
 
-    def setUp(self) -> None:
+    def setup_method(self):
         self.door_controller = DoorController()
 
     def test_initially_door_is_not_opened(self):
         result = self.door_controller.is_door_opened()
 
-        self.assertFalse(result, 'Initially door is not closed')
+        assert not result
 
     def test_open_door_opens(self):
         self.door_controller.open()
 
         result = self.door_controller.is_door_opened()
 
-        self.assertTrue(result, 'Door does not open')
+        assert result
 
     def test_close_door_after_open_door(self):
         # opening door
@@ -28,20 +28,20 @@ class TestDoorController(unittest.TestCase):
 
         result = self.door_controller.is_door_opened()
 
-        self.assertFalse(result, 'Door does not close')
+        assert not result
 
     def test_initially_door_is_not_locked(self):
         # sprawdzić czy początkowo drzwi nie są zablokowanie (assertFalse lub assertTrue)
         result = self.door_controller.is_door_locked()
 
-        self.assertFalse(result, 'Initially door is not locked')
+        assert not result
 
     def test_lock_door_closes_and_locks(self):
         # wazne aby pamietac ze drzwi najpierw musza byc otwarte!!!
         # testujemy czy drzwi po lock() są zamkniete i zablokowane
         # opening
         self.door_controller.open()
-        self.assertTrue(self.door_controller.is_door_opened())
+        assert self.door_controller.is_door_opened()
 
         # closing and locking
         self.door_controller.lock()
@@ -49,8 +49,8 @@ class TestDoorController(unittest.TestCase):
         result_opened = self.door_controller.is_door_opened()
         result_locked = self.door_controller.is_door_locked()
 
-        self.assertFalse(result_opened, 'Door does not close')
-        self.assertTrue(result_locked, 'Door does not lock')
+        assert not result_opened
+        assert result_locked
 
 
     def test_unlock_door(self):
@@ -61,7 +61,7 @@ class TestDoorController(unittest.TestCase):
         self.door_controller.unlock()
         result_locked = self.door_controller.is_door_locked()
 
-        self.assertFalse(result_locked, 'Door does not unlock')
+        assert not result_locked
 
     def test_exception_on_opening_locked_doors(self):
         # Testujemy wystąpienie wyjątku. Polecam sprawdzić w prezentacji składnię!
@@ -70,5 +70,5 @@ class TestDoorController(unittest.TestCase):
         # Pamietajmy ze najpierw musimy zablokowac drzwi, a potem dopiero probowac je otwierac
         self.door_controller.lock()
 
-        with self.assertRaises(DoorLockedError, msg='Does not raise exception on opening locked doors'):
+        with pytest.raises(DoorLockedError, match='The door is locked. Cannot open'):
             self.door_controller.open()

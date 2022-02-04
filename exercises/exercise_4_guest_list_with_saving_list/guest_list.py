@@ -26,4 +26,6 @@ class GuestList:
         return person in self._guest_list
 
     def save_to_file(self, path):
-        pass
+        with open(path, 'w') as file:
+            guests_with_newlines = [guest + '\n' for guest in self._guest_list]
+            file.writelines(guests_with_newlines)

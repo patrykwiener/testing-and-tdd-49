@@ -1,9 +1,10 @@
 from unittest.mock import patch, MagicMock
 
-from exercises.templates.exercise_8_patch_find_pattern_in_file.find_pattern_in_file import find_pattern_in_file
+from exercises.exercise_8_patch_find_pattern_in_file.find_pattern_in_file import find_pattern_in_file
 
 
 class TestFindPatternInFile:
+    PATH = 'test_path'
 
     def test_false_on_empty_file(self):
         # Przetestujmy sytuacje gdy odczytywany plik jest pusty. Funkcja powinna zwrócić False. Wewnętrzna funkcja
@@ -20,21 +21,43 @@ class TestFindPatternInFile:
 
         read_file_lines_return_value = []
         # tworzymy mocka
-        # read_file_lines_mock =
+        read_file_lines_mock = MagicMock(return_value=read_file_lines_return_value)
 
         # sciezke należy sobie samemu zmodyfikowac
-        # with patch('exercises.templates.exercise_8_patch_find_pattern_in_file.find_pattern_in_file.read_file_lines',
-        #            read_file_lines_mock):
+        with patch('exercises.exercise_8_patch_find_pattern_in_file.find_pattern_in_file'
+                   '.read_file_lines',
+                   read_file_lines_mock):
+            sample_pattern = 'test_pattern'
 
-        # sample_path = scieżka do pliku moze byc dowolna, wazne ze string
+            result = find_pattern_in_file(sample_pattern, self.PATH)
+
+            assert not result
 
     def test_false_on_file_not_containing_pattern(self):
         # Testujemy sytuację gdy odczytywany plik nie posiada oczekiwanego wzoru. Funkcja powinna zwrócić False.
         # Należy użyc podobnej konstrukcji co w poprzednim przypadku testowym, tylko w tym przypadku mock bedzie zwracal
         # inna wartosc
-        pass
+        read_file_lines_return_value = ['sample', 'another_sample']
+        read_file_lines_mock = MagicMock(return_value=read_file_lines_return_value)
+        with patch('exercises.exercise_8_patch_find_pattern_in_file.find_pattern_in_file'
+                   '.read_file_lines',
+                   read_file_lines_mock):
+            sample_pattern = 'test_pattern'
+
+            result = find_pattern_in_file(sample_pattern, self.PATH)
+
+            assert not result
 
     def test_true_on_file_containing_pattern(self):
         # Testujemy sytuację gdy odczytywany plik posiada oczekiwanego wzoru. Funkcja powinna zwrócić True. Również
         # posługujemy się podobną konstrukcją mocka poprzez patch().
-        pass
+        read_file_lines_return_value = ['sample', 'test_pattern']
+        read_file_lines_mock = MagicMock(return_value=read_file_lines_return_value)
+        with patch('exercises.exercise_8_patch_find_pattern_in_file.find_pattern_in_file'
+                   '.read_file_lines',
+                   read_file_lines_mock):
+            sample_pattern = 'test_pattern'
+
+            result = find_pattern_in_file(sample_pattern, self.PATH)
+
+            assert result

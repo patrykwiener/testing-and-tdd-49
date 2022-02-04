@@ -1,14 +1,13 @@
 import pytest
 
-from exercises.templates.exercise_5_investment_interest_counter.investment_interest_counter import \
-    InvestmentInterestCounter
+from exercises.exercise_5_investment_interest_counter.investment_interest_counter import InvestmentInterestCounter
 
 
 class TestInvestmentInterestCounter:
     INTEREST_RATE = 0.01
     BALANCE = 10000
 
-    def setup_method(self) -> None:
+    def setup_method(self):
         self.account = InvestmentInterestCounter(self.INTEREST_RATE, self.BALANCE)
 
     @pytest.mark.parametrize('duration, expected_balance', [

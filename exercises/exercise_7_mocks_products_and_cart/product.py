@@ -21,4 +21,15 @@ class PriceLessOrEqualZeroError(Exception):
 
 
 class Product:
-    pass
+    def __init__(self, name, price):
+        self._name = name
+
+        if price <= 0:
+            raise PriceLessOrEqualZeroError()
+        self._price = price
+
+    def get_name(self):
+        return self._name
+
+    def get_price(self):
+        return self._price

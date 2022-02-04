@@ -18,4 +18,7 @@ Na razie testy tej funkcji pominiemy.
 
 
 def read_file_lines(path):
-    pass
+    f = open(path, 'r')
+    file_lines = f.readlines()
+    f.close()
+    return file_lines

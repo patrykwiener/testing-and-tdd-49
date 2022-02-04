@@ -21,4 +21,14 @@ Sprawdź za pomocą narzędzia coverage czy pokryte zostały wszystkie przypadki
 
 
 class GuestList:
-    pass
+    def __init__(self):
+        self._guest_list = []
+
+    def get_guest_list(self):
+        return self._guest_list if self._guest_list else 'The list is empty'
+
+    def add_guest(self, person):
+        self._guest_list.append(str(person))
+
+    def is_person_invited(self, person):
+        return person in self._guest_list

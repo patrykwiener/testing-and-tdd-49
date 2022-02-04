@@ -12,5 +12,8 @@ Prime number (liczba pierwsza) to liczba będąca większa od 1, która dzieli s
 """
 
 
-def is_prime_number(number):
-    pass
+def is_prime_number(num):
+    for n in range(2, num):
+        if num % n == 0:
+            return False
+    return True

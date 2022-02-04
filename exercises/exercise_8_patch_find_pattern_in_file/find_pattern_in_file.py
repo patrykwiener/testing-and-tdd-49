@@ -14,7 +14,12 @@ Należy napisać testy tej funkcji w pliku test_find_pattern_in_file.py. Należy
 patch() aby zamockowac zewnetrzna funkcje read_file_lines(path).
 
 """
+from exercises.exercise_8_patch_find_pattern_in_file.file_reader import read_file_lines
 
 
 def find_pattern_in_file(pattern: str, path: str) -> bool:
-    pass
+    read_lines = read_file_lines(path)
+    for line in read_lines:
+        if pattern in line:
+            return True
+    return False
